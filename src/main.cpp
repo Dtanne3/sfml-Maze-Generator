@@ -11,7 +11,7 @@ int main(void)
 	//vars
 	enum States { ACTIVE, IDLE };
 	unsigned const int FPS = 30;
-	Grid Maze(14, 16, sf::Vector2f(0.0f, 0.0f));
+	Grid Maze(28, 32, sf::Vector2f(0.0f, 0.0f));
 	
 
 
@@ -53,6 +53,14 @@ int main(void)
 					Generate.setColor(sf::Color::White);
 				}
 				break;
+			case sf::Event::MouseButtonPressed:
+				if (Generate.isHovered(win))
+				{
+					Maze.generateMaze();
+				}
+				break;
+
+			
 			case sf::Event::Closed:
 				win.close();
 				break;

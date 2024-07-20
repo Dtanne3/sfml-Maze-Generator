@@ -9,7 +9,7 @@ class Grid
 private:
 	std::vector<std::vector<Cell>> map;
 	int rows;
-	int col;
+	int cols;
 public:
 	Grid(int numOfCol, int numOfRows, sf::Vector2f startingPos);
 	void clearGrid();
