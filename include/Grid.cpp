@@ -143,7 +143,6 @@ void Grid::generateMaze()
 
 		try 
 		{
-			//issue: does not properly store the neighbor of the frontier cells
 			Cell* mid;
 			int dir;
 
@@ -167,7 +166,7 @@ void Grid::generateMaze()
 		}
 		catch (...)
 		{ }
-		
+		//remove frontier cell
 		frontiers.erase(frontiers.begin() + index);
 	}
 	printf("Done generating maze");
