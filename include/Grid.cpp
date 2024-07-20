@@ -149,16 +149,12 @@ void Grid::generateMaze()
 
 			if (x == row)
 			{
-				printf("same row");
 				dir = (col - y) / 2;
-				printf("(%i, %i)", x, y + dir);
 				mid = &map.at(x).at(y + dir);
 			}
 			else
 			{
-				printf("same col");
 				dir = (row - x) / 2;
-				printf("(%i, %i)", x + dir, y);
 				mid = &map.at(x + dir).at(y);
 			}
 			if (mid->isWall() && c->isWall())
@@ -173,7 +169,6 @@ void Grid::generateMaze()
 		{ }
 		
 		frontiers.erase(frontiers.begin() + index);
-		printf("%i\n", frontiers.size());
 	}
 	printf("Done generating maze");
 }

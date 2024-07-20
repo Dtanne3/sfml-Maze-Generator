@@ -6,8 +6,6 @@ Cell::Cell(sf::Vector2f pos)
 	body.setSize(sf::Vector2f(25.0f, 25.0f));
 	body.setPosition(pos);
 	body.setFillColor(sf::Color::Black);
-	//body.setOutlineColor(sf::Color::White);
-	//body.setOutlineThickness(2.0f);
 }
 void Cell::toggleState()
 {
