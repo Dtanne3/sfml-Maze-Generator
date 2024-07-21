@@ -9,9 +9,9 @@ Visual Studio 2022 is required.
 * Execution
   - Either select the play button on the toolbar, or select `Debug -> Start Without Debugging`.
 * Build
-  This program uses 64-bit libraries from SFML.
-  1. Select `Build -> Build Solution`
-  2. In the project folder, select `x64 -> Debug/Release` and drag the .exe file to the project folder (this is a fix for fonts not showing)
+  <br /> This program uses 64-bit libraries from SFML.
+    1. Select `Build -> Build Solution`
+    2. In the project folder, select `x64 -> Debug/Release` and drag the .exe file to the project folder (this is a fix for fonts not showing)
 
 ## Purpose:
 This was created to learn Prim's Algorithm for procedural generation
