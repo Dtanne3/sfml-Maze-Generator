@@ -8,11 +8,12 @@ class Grid
 {
 private:
 	std::vector<std::vector<Cell>> map;
+	sf::RenderWindow* win;
 	int rows;
 	int cols;
 public:
-	Grid(int numOfCol, int numOfRows, sf::Vector2f startingPos);
+	Grid(int numOfCol, int numOfRows, sf::Vector2f startingPos, sf::RenderWindow* win);
 	void clearGrid();
 	void generateMaze();
-	void drawGrid(sf::RenderWindow& win);
+	void drawGrid();
 };

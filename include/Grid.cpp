@@ -3,6 +3,8 @@
 #include <vector>
 #include <cstdlib>
 #include <cmath>
+#include <random>
+#include <chrono>
 #include "Cell.h"
 #include "Grid.h"
 
@@ -14,7 +16,6 @@ Cell* findCell(std::vector<std::vector<Cell>>& m, int x, int y)
 	{
 		if (y >= 0 && y < m[x].size())
 		{
-			//temporary solution
 			c = &m[x][y];
 			if (!c -> isWall())
 			{
@@ -69,9 +70,10 @@ void inputFrontiers(std::vector<std::vector<Cell>>& m, std::vector<std::vector<C
 }
 
 //Class functions
-Grid::Grid(int numOfCol, int numOfRows, sf::Vector2f startingPos)
+Grid::Grid(int numOfCol, int numOfRows, sf::Vector2f startingPos, sf::RenderWindow* win)
 {
-	
+	this->win = win;
+
 	cols = numOfCol;
 	rows = numOfRows;
 
@@ -103,46 +105,48 @@ void Grid::clearGrid()
 }
 void Grid::generateMaze()
 {
-	//select random cell from column 0
-	//find the up/down/left/right neighbors of cell and compute frontier cells (2 spaces ahead of chosen cell)
-	//add frontier cells to a list
-	//while list of frontier cells is not empty:
-	/*
-		-pick random frontier cell from list
-		-toggle state of the cell in-between (AKA bridge cell)
-		-compute frontier cells of the chosen frontier cell and add them to the list of frontier cells
-		-remove chosen cell from the list
-	*/
+	//Uses a variation of Prim's Algorithm
 	this->clearGrid();
 
+	typedef std::chrono::high_resolution_clock clock;
+	clock::time_point start = clock::now();
 
-	srand(time(0));
-	std::vector<std::vector<Cell*>> frontiers; //contains frontier cells and their neighbor
-	int row = rand() % rows;
-	int col = rand() % cols;
+	std::vector<std::vector<Cell*>> frontiers; 
+	std::minstd_rand gen1;
+	//get random index
+	std::uniform_int_distribution<int> randRow(1, rows - 2), randCol(1, cols - 2);
+
+	clock::duration d = clock::now() - start;
+	gen1.seed(d.count());
+	int row = randRow(gen1);
+	int col = randCol(gen1);
+
 	
 	Cell* startNode = &map.at(row).at(col);
 	startNode->toggleState();
 	
 	inputFrontiers(map, frontiers, *startNode);
-
+	
 	while (frontiers.size() > 0)
 	{
 		
-		//pick random frontier cell
-		int index = rand() % frontiers.size();
-		Cell* c = frontiers.at(index).at(0); 
+		std::uniform_int_distribution<int> randFrontier(0, frontiers.size()-1);
+		
+		int index = randFrontier(gen1);
+		Cell* c = frontiers.at(index).at(0);
 		std::vector<int> sCoords = getCellCoordinates(map, *c);
 		row = sCoords.at(0);
 		col = sCoords.at(1);
 
 		//get bridge cell
-		std::vector<int> bCoords = getCellCoordinates(map, *frontiers.at(index).at(1));
+		Cell* prev = frontiers.at(index).at(1);
+		std::vector<int> bCoords = getCellCoordinates(map, *prev);
 		int x = bCoords.at(0);
 		int y = bCoords.at(1);
 
 		try 
 		{
+			//set neighbor of base cell to bridge, then set neighbor of bridge cell to frontier cell
 			Cell* mid;
 			int dir;
 
@@ -156,31 +160,37 @@ void Grid::generateMaze()
 				dir = (row - x) / 2;
 				mid = &map.at(x + dir).at(y);
 			}
+			
 			if (mid->isWall() && c->isWall())
 			{
 				mid->toggleState();
+
+
 				c->toggleState();
 			}
-			//input frontier cells
+			
+			prev->neighbors.push_back(mid);
+			mid->neighbors.push_back(c);
+
 			inputFrontiers(map, frontiers, *c);
 		}
 		catch (...)
 		{ }
-		//remove frontier cell
 		frontiers.erase(frontiers.begin() + index);
 	}
-	printf("Done generating maze");
+	printf("Done generating maze\n");
+
 }
 
 
 
-void Grid::drawGrid(sf::RenderWindow& win)
+void Grid::drawGrid()
 {
 	for (std::vector<Cell> v : map)
 	{
 		for (Cell& c : v)
 		{
-			c.drawBody(win);
+			c.drawBody(*win);
 		}
 	}
 }
