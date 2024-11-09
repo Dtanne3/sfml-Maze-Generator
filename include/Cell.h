@@ -11,10 +11,11 @@ private:
 	enum State {EMPTY, WALL};
 	int currentState = EMPTY;
 	sf::RectangleShape body;
+	
 
 
 public:
-	std::vector<Cell> neighbors;
+	std::vector<Cell*> neighbors;
 
 	Cell(sf::Vector2f pos);
 	void clear();
