@@ -10,9 +10,7 @@ int main(void)
 {
 	//vars
 	enum States { ACTIVE, IDLE };
-	unsigned const int FPS = 30;
-	Grid Maze(28, 32, sf::Vector2f(0.0f, 0.0f));
-	
+	const uint16_t FPS = 30;
 
 
 	//font
@@ -33,6 +31,9 @@ int main(void)
 	Generate.setTextString("Generate Maze");
 	Generate.setColor(sf::Color::White);
 	Generate.setTextColor(sf::Color::Black);
+
+	//objects
+	Grid Maze(28, 32, sf::Vector2f(0.0f, 0.0f), &win);
 
 
 	while (win.isOpen())
@@ -74,7 +75,7 @@ int main(void)
 		Generate.drawTo(win);
 
 		//display grid
-		Maze.drawGrid(win);
+		Maze.drawGrid();
 
 		win.display();
 	}

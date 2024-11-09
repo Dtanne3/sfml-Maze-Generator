@@ -25,12 +25,14 @@
     <ClCompile Include="include\Cell.cpp" />
     <ClCompile Include="include\Grid.cpp" />
     <ClCompile Include="include\SUI.cpp" />
+    <ClCompile Include="include\Rat.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Cell.h" />
     <ClInclude Include="include\Grid.h" />
     <ClInclude Include="include\SUI.h" />
+    <ClInclude Include="include\Rat.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

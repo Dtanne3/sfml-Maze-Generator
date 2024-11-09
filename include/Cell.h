@@ -12,8 +12,6 @@ private:
 	int currentState = EMPTY;
 	sf::RectangleShape body;
 	
-
-
 public:
 	std::vector<Cell*> neighbors;
 
